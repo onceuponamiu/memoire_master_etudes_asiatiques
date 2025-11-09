@@ -1,0 +1,157 @@
+\documentclass[a4paper,12pt,twoside,french]{book}
+
+% Fonts and language
+\usepackage{fontspec} % dùng XeLaTeX/LuaLaTeX
+\setmainfont{Times New Roman} % tên font chuẩn hệ thống
+\usepackage[french]{babel}
+\usepackage{csquotes}
+
+% Bibliography (biblatex + biber)
+\usepackage[
+  backend=biber,
+  style=verbose,
+  citestyle=verbose-ibid,
+  ibidtracker=context,
+  citetracker=true
+]{biblatex}
+
+\addbibresource{ecritNKM.bib}
+\addbibresource{revue_colonial.bib}
+
+% Tiêu đề thư mục đúng khóa của biblatex (lowercase)
+\DefineBibliographyStrings{french}{
+  bibliography = {Bibliographie},
+}
+
+% Nếu muốn hiện "Bibliographie" thì KHÔNG cần dòng dưới; nếu muốn "References", đổi ở đây:
+% \DefineBibliographyStrings{french}{bibliography = {References}}
+
+% Header/Footer với fancyhdr
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}                 % xóa header/footer mặc định
+\fancyfoot[C]{\thepage}    % số trang ở giữa chân trang
+\renewcommand{\headrulewidth}{0pt} % bỏ gạch đầu trang
+
+% GÓI KHÁC
+\usepackage{url}
+\usepackage{multicol}
+\usepackage[svgnames]{xcolor}
+% Khuyến nghị dùng subcaption thay vì subfig (tránh xung đột với caption)
+\usepackage{subcaption}
+\usepackage{graphicx,wrapfig,lipsum}
+\usepackage{titlesec} % KHÔNG dùng [pagestyles] để tránh đụng fancyhdr
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage[official]{eurosym}
+\usepackage{todonotes}
+\usepackage{rotating}
+\usepackage{footnote}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Hyperref NÊN để gần cuối
+\usepackage[bookmarks,breaklinks,colorlinks=true,allcolors=blue]{hyperref}
+
+% --- LOẠI BỎ: \newpagestyle (thuộc titleps). Đang dùng fancyhdr nên không dùng dòng này. ---
+% % \newpagestyle{mystyle}{\setfoot[\thepage]{}{}{}{\thepage}}
+
+% Margins
+\geometry{a4paper,margin=2.75cm}
+
+% ToC depth
+\setcounter{tocdepth}{4}
+
+% Paragraph indent
+\setlength{\parindent}{1cm}
+
+% --- ĐỊNH DẠNG TIÊU ĐỀ ---
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+
+% Beginning of the document
+\begin{document} 
+\counterwithout{footnote}{chapter}
+\onehalfspacing
+
+    % Trang tiêu đề và các phần mở đầu
+    \include{page_titre}
+    \thispagestyle{empty}
+
+    % Bắt đầu đánh số trang 1, 2, 3...
+    \pagenumbering{arabic}
+    
+    % --- MỤC LỤC ---
+    \tableofcontents
+    \cleardoublepage
+    
+    % --- CÁC PHẦN MỞ ĐẦU ĐÃ SỬA ĐỂ HIỆN TRONG MỤC LỤC ---
+    \chapter*{Résumé}
+    \addcontentsline{toc}{chapter}{Résumé} % Thêm dòng này để hiện "Résumé" trong mục lục
+    \input{resume}
+
+    \chapter*{Abstract}
+    \addcontentsline{toc}{chapter}{Abstract} % Thêm dòng này để hiện "Résumé" trong mục lục
+    \input{abstract}
+    
+    \chapter*{Remerciements}
+    \addcontentsline{toc}{chapter}{Remerciements} % Thêm dòng này
+    \input{remerciements}
+    
+    % --- INTRODUCTION LÀ CHƯƠNG 1 ---
+    % Đổi thành \chapter{} để được đánh số và hiện trong mục lục
+    \chapter*{Introduction}
+    \addcontentsline{toc}{chapter}{Introduction}
+    \input{introduction}
+    
+    % --- THÂN BÀI ---
+    \part{Éléments biographique de Nguyễn Kim Muôn}
+    \input{Partie1}
+
+    \part{Présentation et analyse des œuvres de Nguyễn Kim Muôn }
+    \input{Partie2}
+    
+    \part{Mémoire et héritage de Nguyễn Kim Muôn}
+    \input{Partie3}
+
+    % --- KẾT LUẬN ---
+    \chapter*{Conclusion}
+    \addcontentsline{toc}{chapter}{Conclusion} % Thêm dòng này
+    \input{conclusion}
+
+    % --- Annnexe ---
+
+    \chapter*{Annexes}
+    \addcontentsline{toc}{chapter}{Annexes} % Thêm dòng này
+    \input{Annexes.tex}
+
+    % --- THƯ MỤC ---
+    \cleardoublepage
+    \chapter*{Sources primaires}
+    \addcontentsline{toc}{chapter}{Sources primaires} % Thêm dòng này (lưu ý là 'part')
+    \input{index.tex} % Tôi giả định file index.tex chứa thư mục của bạn
+    
+    \chapter*{BIBLIOGRAPHIE}
+    \addcontentsline{toc}{chapter}{BIBLIOGRAPHIE} % Thêm dòng này (lưu ý là 'part')
+    \input{bibliographie} % Tôi giả định file index.tex chứa thư mục của bạn
+
+% End of the document
+\end{document}
